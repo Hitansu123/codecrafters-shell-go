@@ -14,10 +14,10 @@ func main() {
 	fmt.Fprint(os.Stdout, "$ ")
 
 	// Wait for user input
-	userInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	_, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil {
 		fmt.Println("invalid_command: command not found")
 	}
-	fmt.Println(userInput)
+	fmt.Println("ok")
 
 }

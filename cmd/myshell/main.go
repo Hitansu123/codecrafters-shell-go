@@ -22,4 +22,6 @@ func main() {
 	userInput = strings.TrimSpace(userInput)
 	output := fmt.Sprintf("%s: command not found", userInput)
 	fmt.Fprint(os.Stdout, output)
+	fmt.Println()
+	main()
 }

@@ -20,6 +20,6 @@ func main() {
 		fmt.Println("invalid_command: command not found")
 	}
 	userInput = strings.TrimSpace(userInput)
-	output := fmt.Sprintf("%s : command not found", userInput)
+	output := fmt.Sprintf("%s: command not found", userInput)
 	fmt.Fprint(os.Stdout, output)
 }

@@ -16,7 +16,7 @@ func main() {
 	// Wait for user input
 	userInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil {
-		fmt.Println(fmt.Sprintf("invalid_command:%v not found", userInput))
+		fmt.Println("invalid_command: command not found")
 	}
 	fmt.Println(userInput)
 

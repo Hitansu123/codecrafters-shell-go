@@ -18,6 +18,6 @@ func main() {
 	if err != nil {
 		fmt.Println("invalid_command: command not found")
 	}
-	fmt.Println("ok")
+	fmt.Println("invalid_command: command not found")
 
 }

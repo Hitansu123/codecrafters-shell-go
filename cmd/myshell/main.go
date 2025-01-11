@@ -34,6 +34,8 @@ func main() {
 			fmt.Println(after)
 		} else if command == "exit 0" {
 			os.Exit(0)
+		} else {
+			fmt.Fprintf(os.Stdout, "%s: command not found\n", command)
 		}
 		fmt.Fprint(os.Stdout, "$ ")
 	}

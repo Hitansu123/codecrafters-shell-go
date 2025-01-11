@@ -24,10 +24,17 @@ func main() {
 			os.Exit(1)
 		}
 		command = strings.TrimSpace(command)
-		if command == "exit 0" {
+		first := strings.Split(command, " ")
+		if first[0] == "echo" {
+			var after string
+			for _, item := range first[1:] {
+				after = after + item
+				after += " "
+			}
+			fmt.Println(after)
+		} else if command == "exit 0" {
 			os.Exit(0)
 		}
-		fmt.Fprintf(os.Stdout, "%s: command not found\n", command)
 		fmt.Fprint(os.Stdout, "$ ")
 	}
 }

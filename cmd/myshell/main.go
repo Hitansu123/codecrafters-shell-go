@@ -18,7 +18,14 @@ func echocmd(first []string) string {
 	}
 	return after
 }
-func typecmd(first []string) string {
+func typecmd(path string, first []string) string {
+	directory := strings.Split(path, ":")
+	for _, item := range directory {
+		fullPath := fmt.Sprintf("%s/%s", item, first[1])
+		if _, err := os.Stat(fullPath); err == nil {
+			return fmt.Sprintf("%s is %s", first[1], fullPath)
+		}
+	}
 	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" {
 		return fmt.Sprintf("%s is a shell builtin", first[1])
 	}
@@ -27,6 +34,7 @@ func typecmd(first []string) string {
 func main() {
 	// Uncomment this block to pass the first stage
 	fmt.Fprint(os.Stdout, "$ ")
+	path := os.Getenv("PATH")
 	// Wait for user input
 	userInput := bufio.NewReader(os.Stdin)
 
@@ -42,7 +50,7 @@ func main() {
 		if first[0] == "echo" {
 			fmt.Println(echocmd(first))
 		} else if first[0] == "type" {
-			fmt.Println(typecmd(first))
+			fmt.Println(typecmd(path, first))
 		} else if command == "exit 0" {
 			os.Exit(0)
 		} else {

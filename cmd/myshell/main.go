@@ -68,7 +68,7 @@ func main() {
 					isfound = true
 
 					// Execute the command
-					cmd := exec.Command(fullpath, cmdArgs...)
+					cmd := exec.Command(cmdName, cmdArgs...)
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
 					if err := cmd.Run(); err != nil {

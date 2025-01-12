@@ -22,7 +22,7 @@ func typecmd(first []string) string {
 	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" {
 		return fmt.Sprintf("%s is a shell builtin", first[1])
 	}
-	return fmt.Sprintf("invalid_command: not found")
+	return fmt.Sprintf("%s: not found", first[1])
 }
 func main() {
 	// Uncomment this block to pass the first stage

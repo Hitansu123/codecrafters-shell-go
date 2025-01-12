@@ -59,20 +59,18 @@ func main() {
 			os.Exit(0)
 		} else {
 			paths := strings.Split(path, ":")
-			cmdName := first[0]
-			cmdArgs := first[1:]
 			isfound := false
 			for _, item := range paths {
-				fullpath := filepath.Join(item, first[1])
+				fullpath := filepath.Join(item, first[0])
 				if _, err := os.Stat(fullpath); err == nil {
 					isfound = true
 
 					// Execute the command
-					cmd := exec.Command(cmdName, cmdArgs...)
+					cmd := exec.Command(first[0], first[1:]...)
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
 					if err := cmd.Run(); err != nil {
-						fmt.Printf("%s: error executing command\n", cmdName)
+						fmt.Printf("%s: error executing command\n", first[0])
 					}
 					break
 				}

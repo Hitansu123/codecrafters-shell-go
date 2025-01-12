@@ -19,6 +19,10 @@ func echocmd(first []string) string {
 	return after
 }
 func typecmd(path string, first []string) string {
+
+	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" {
+		return fmt.Sprintf("%s is a shell builtin", first[1])
+	}
 	directory := strings.Split(path, ":")
 	for _, item := range directory {
 		fullPath := fmt.Sprintf("%s/%s", item, first[1])
@@ -26,9 +30,7 @@ func typecmd(path string, first []string) string {
 			return fmt.Sprintf("%s is %s", first[1], fullPath)
 		}
 	}
-	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" {
-		return fmt.Sprintf("%s is a shell builtin", first[1])
-	}
+
 	return fmt.Sprintf("%s: not found", first[1])
 }
 func main() {

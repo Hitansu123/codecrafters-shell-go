@@ -51,6 +51,11 @@ func main() {
 		}
 		command = strings.TrimSpace(command)
 		first := strings.Split(command, " ")
+		if len(first) == 1 {
+			fmt.Printf("%s: command not found", first[0])
+			return
+		}
+
 		if first[0] == "echo" {
 			fmt.Println(echocmd(first))
 		} else if first[0] == "type" {
@@ -70,7 +75,7 @@ func main() {
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
 					if err := cmd.Run(); err != nil {
-						fmt.Printf("%s: error executing command\n", first[0])
+						fmt.Printf("%s: command not found\n", first[0])
 					}
 					break
 				}

@@ -51,12 +51,10 @@ func main() {
 		}
 		command = strings.TrimSpace(command)
 		first := strings.Split(command, " ")
-		if len(first) == 1 {
-			fmt.Printf("%s: command not found", first[0])
-			return
-		}
 
-		if first[0] == "echo" {
+		if len(first) == 1 {
+			fmt.Printf("%s: command not found\n", first[0])
+		} else if first[0] == "echo" {
 			fmt.Println(echocmd(first))
 		} else if first[0] == "type" {
 			fmt.Println(typecmd(path, first))

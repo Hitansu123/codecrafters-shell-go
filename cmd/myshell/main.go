@@ -51,15 +51,24 @@ func main() {
 		}
 		command = strings.TrimSpace(command)
 		first := strings.Split(command, " ")
-
-		if len(first) == 1 {
+		if len(first) == 1 && first[0] != "pwd" {
 			fmt.Printf("%s: command not found\n", first[0])
+		} else if first[0] == "pwd" {
+			dir, err := os.Getwd()
+			if err != nil {
+				fmt.Println("error")
+			}
+			fmt.Println(dir)
+
 		} else if first[0] == "echo" {
 			fmt.Println(echocmd(first))
+
 		} else if first[0] == "type" {
 			fmt.Println(typecmd(path, first))
+
 		} else if command == "exit 0" {
 			os.Exit(0)
+
 		} else {
 			paths := strings.Split(path, ":")
 			isfound := false

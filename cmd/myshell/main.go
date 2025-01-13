@@ -22,7 +22,7 @@ func echocmd(first []string) string {
 }
 func typecmd(path string, first []string) string {
 
-	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" {
+	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" || first[1] == "pwd" {
 		return fmt.Sprintf("%s is a shell builtin", first[1])
 	}
 	directory := strings.Split(path, ":")

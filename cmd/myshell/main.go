@@ -25,7 +25,7 @@ func Cdcmd(first []string) string {
 	//source _ := os.Getwd()
 	err := os.Chdir(tomove)
 	if err != nil {
-		return fmt.Sprintf("cd: %s: No such file or directory", tomove)
+		return fmt.Sprintf("cd: %s: No such file or directory\n", tomove)
 	}
 	return ""
 }

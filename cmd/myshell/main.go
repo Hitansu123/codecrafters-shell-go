@@ -22,15 +22,15 @@ func echocmd(first []string) string {
 }
 func Cdcmd(first []string) string {
 	tomove := first[1]
-	source, _ := os.Getwd()
-	err := os.Rename(source, tomove)
+	//source _ := os.Getwd()
+	err := os.Chdir(tomove)
 	if err != nil {
-		return fmt.Sprintf("error changind directory")
+		return fmt.Sprintf("cd: %s: No such file or directory", tomove)
 	}
 	return ""
 }
 func typecmd(path string, first []string) string {
-	builtintype := []string{"echo", "exit", "type", "pwd"}
+	builtintype := []string{"echo", "exit", "type", "pwd", "cd"}
 	for _, item := range builtintype {
 		if first[1] == item {
 			return fmt.Sprintf("%s is a shell builtin", first[1])
@@ -78,7 +78,7 @@ func main() {
 			fmt.Println(typecmd(path, first))
 
 		} else if first[0] == "cd" {
-			fmt.Println(Cdcmd(first))
+			fmt.Print(Cdcmd(first))
 
 		} else if command == "exit 0" {
 			os.Exit(0)

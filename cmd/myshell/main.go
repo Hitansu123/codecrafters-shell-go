@@ -20,10 +20,21 @@ func echocmd(first []string) string {
 	}
 	return after
 }
+func Cdcmd(first []string) string {
+	tomove := first[1]
+	//source _ := os.Getwd()
+	err := os.Chdir(tomove)
+	if err != nil {
+		return fmt.Sprintf("cd: %s: No such file or directory\n", tomove)
+	}
+	return ""
+}
 func typecmd(path string, first []string) string {
-
-	if first[1] == "echo" || first[1] == "exit" || first[1] == "type" {
-		return fmt.Sprintf("%s is a shell builtin", first[1])
+	builtintype := []string{"echo", "exit", "type", "pwd", "cd"}
+	for _, item := range builtintype {
+		if first[1] == item {
+			return fmt.Sprintf("%s is a shell builtin", first[1])
+		}
 	}
 	directory := strings.Split(path, ":")
 	for _, item := range directory {
@@ -51,15 +62,27 @@ func main() {
 		}
 		command = strings.TrimSpace(command)
 		first := strings.Split(command, " ")
-
-		if len(first) == 1 {
+		if len(first) == 1 && first[0] != "pwd" {
 			fmt.Printf("%s: command not found\n", first[0])
+		} else if first[0] == "pwd" {
+			dir, err := os.Getwd()
+			if err != nil {
+				fmt.Println("error")
+			}
+			fmt.Println(dir)
+
 		} else if first[0] == "echo" {
 			fmt.Println(echocmd(first))
+
 		} else if first[0] == "type" {
 			fmt.Println(typecmd(path, first))
+
+		} else if first[0] == "cd" {
+			fmt.Print(Cdcmd(first))
+
 		} else if command == "exit 0" {
 			os.Exit(0)
+
 		} else {
 			paths := strings.Split(path, ":")
 			isfound := false

@@ -23,9 +23,14 @@ func echocmd(first []string) string {
 func Cdcmd(first []string) string {
 	tomove := first[1]
 	//source _ := os.Getwd()
-	err := os.Chdir(tomove)
-	if err != nil {
-		return fmt.Sprintf("cd: %s: No such file or directory\n", tomove)
+	homedir, _ := os.UserHomeDir()
+	if tomove == "~" {
+		os.Chdir(homedir)
+	} else {
+		err := os.Chdir(tomove)
+		if err != nil {
+			return fmt.Sprintf("cd: %s: No such file or directory\n", tomove)
+		}
 	}
 	return ""
 }

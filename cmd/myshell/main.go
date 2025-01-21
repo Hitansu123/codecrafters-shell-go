@@ -95,7 +95,7 @@ func main() {
 			fmt.Println(dir)
 
 		} else if first[0] == "echo" {
-			echocmd(first)
+			echocmd(first[1:])
 
 		} else if first[0] == "type" {
 			fmt.Println(typecmd(path, first))

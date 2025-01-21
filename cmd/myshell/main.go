@@ -12,7 +12,21 @@ import (
 // Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
 var _ = fmt.Fprint
 
-func echocmd(first []string) string {
+func echocmd(first []string, spaces int) string {
+	//last := len(first) - 1
+	oldstring := ""
+	var spaceStr string
+	for i := 0; i < spaces-1; i++ {
+		spaceStr += " "
+	}
+	oldstring = strings.Join(first[1:], spaceStr)
+	start := strings.Index(oldstring, "'")
+	if start != -1 {
+		//end := strings.Index(oldstring, "'")
+
+		oldstring = strings.ReplaceAll(oldstring, "'", "")
+		return oldstring
+	}
 	var after string
 	for _, item := range first[1:] {
 		after = after + item
@@ -66,7 +80,13 @@ func main() {
 			os.Exit(1)
 		}
 		command = strings.TrimSpace(command)
-		first := strings.Split(command, " ")
+		var spaces int
+		for i, _ := range command {
+			if command[i] == ' ' {
+				spaces++
+			}
+		}
+		first := strings.Fields(command)
 		if len(first) == 1 && first[0] != "pwd" {
 			fmt.Printf("%s: command not found\n", first[0])
 		} else if first[0] == "pwd" {
@@ -77,7 +97,7 @@ func main() {
 			fmt.Println(dir)
 
 		} else if first[0] == "echo" {
-			fmt.Println(echocmd(first))
+			fmt.Println(echocmd(first, spaces))
 
 		} else if first[0] == "type" {
 			fmt.Println(typecmd(path, first))

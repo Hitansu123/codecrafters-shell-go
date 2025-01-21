@@ -12,27 +12,17 @@ import (
 // Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
 var _ = fmt.Fprint
 
-func echocmd(first []string, spaces int) string {
-	//last := len(first) - 1
-	oldstring := ""
-	var spaceStr string
-	for i := 0; i < spaces-1; i++ {
-		spaceStr += " "
-	}
-	oldstring = strings.Join(first[1:], spaceStr)
-	start := strings.Index(oldstring, "'")
-	if start != -1 {
-		//end := strings.Index(oldstring, "'")
+func echocmd(first []string) error {
+	if len(first) == 0 {
+		fmt.Fprintln(os.Stdout)
+		return nil
 
-		oldstring = strings.ReplaceAll(oldstring, "'", "")
-		return oldstring
 	}
-	var after string
-	for _, item := range first[1:] {
-		after = after + item
-		after += " "
+	for i := 0; i < len(first)-1; i++ {
+		fmt.Fprintf(os.Stdout, "%s ", first[i])
 	}
-	return after
+	fmt.Fprintln(os.Stdout, first[len(first)-1])
+	return nil
 }
 func Cdcmd(first []string) string {
 	tomove := first[1]
@@ -80,13 +70,21 @@ func main() {
 			os.Exit(1)
 		}
 		command = strings.TrimSpace(command)
-		var spaces int
-		for i, _ := range command {
-			if command[i] == ' ' {
-				spaces++
+
+		var first []string
+		for {
+			start := strings.Index(command, "'")
+			if start == -1 {
+				first = append(first, strings.Fields(command)...)
+				break
 			}
+			first = append(first, strings.Fields(command[:start])...)
+			command = command[start+1:]
+			end := strings.Index(command, "'")
+			token := command[:end]
+			first = append(first, token)
+			command = command[end+1:]
 		}
-		first := strings.Fields(command)
 		if len(first) == 1 && first[0] != "pwd" {
 			fmt.Printf("%s: command not found\n", first[0])
 		} else if first[0] == "pwd" {
@@ -97,7 +95,7 @@ func main() {
 			fmt.Println(dir)
 
 		} else if first[0] == "echo" {
-			fmt.Println(echocmd(first, spaces))
+			echocmd(first)
 
 		} else if first[0] == "type" {
 			fmt.Println(typecmd(path, first))
